@@ -20,6 +20,7 @@
             --accent-glow: rgba(34, 211, 238, 0.3);
             --success: #10b981;
             --warning: #f59e0b;
+            --danger: #ef4444;
             --bg-dark: #030712;
             --bg-card: rgba(15, 23, 42, 0.8);
             --bg-card-hover: rgba(30, 41, 59, 0.9);
@@ -750,9 +751,346 @@
             opacity: 1;
             transform: translateY(0);
         }
+
+        /* ========== GAMES SECTION ========== */
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .game-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .game-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent);
+            box-shadow: 0 25px 50px rgba(34, 211, 238, 0.15);
+        }
+
+        .game-header {
+            padding: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .game-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .game-title i {
+            font-size: 1.5rem;
+            color: var(--accent);
+        }
+
+        .game-title h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .game-score {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.1rem;
+            color: var(--accent);
+            background: rgba(34, 211, 238, 0.1);
+            padding: 8px 16px;
+            border-radius: 8px;
+        }
+
+        .game-container {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Snake Game */
+        #snakeCanvas {
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .game-controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .game-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 10px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .game-btn-primary {
+            background: linear-gradient(135deg, var(--accent), var(--primary));
+            color: white;
+        }
+
+        .game-btn-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px var(--accent-glow);
+        }
+
+        .game-btn-secondary {
+            background: var(--glass);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+
+        .game-btn-secondary:hover {
+            border-color: var(--accent);
+        }
+
+        /* Bug Catcher Game */
+        #bugGameArea {
+            width: 100%;
+            height: 300px;
+            position: relative;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            background: rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            cursor: crosshair;
+        }
+
+        .bug {
+            position: absolute;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: transform 0.1s;
+            user-select: none;
+            animation: bugFloat 2s ease-in-out infinite;
+        }
+
+        .bug:hover {
+            transform: scale(1.2);
+        }
+
+        .bug.caught {
+            animation: bugCaught 0.3s ease-out forwards;
+        }
+
+        @keyframes bugFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(5deg); }
+        }
+
+        @keyframes bugCaught {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.5); }
+            100% { transform: scale(0); opacity: 0; }
+        }
+
+        .combo-text {
+            position: absolute;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            color: var(--accent);
+            pointer-events: none;
+            animation: comboFade 0.8s ease-out forwards;
+        }
+
+        @keyframes comboFade {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-50px) scale(1.5); opacity: 0; }
+        }
+
+        /* Matrix Rain Effect */
+        #matrixCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -3;
+            opacity: 0;
+            transition: opacity 1s;
+        }
+
+        #matrixCanvas.active {
+            opacity: 0.15;
+        }
+
+        /* Konami Code Easter Egg */
+        .konami-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .konami-overlay.active {
+            display: flex;
+            animation: konamiIn 0.5s ease-out;
+        }
+
+        @keyframes konamiIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .konami-content {
+            text-align: center;
+        }
+
+        .konami-content h2 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--accent), var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 2s ease infinite;
+        }
+
+        .konami-content p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+        }
+
+        .secret-stats {
+            display: flex;
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+
+        .secret-stat {
+            text-align: center;
+        }
+
+        .secret-stat-value {
+            font-size: 2.5rem;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent);
+        }
+
+        .secret-stat-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Interactive Particles */
+        .particle {
+            position: fixed;
+            pointer-events: none;
+            border-radius: 50%;
+            z-index: 9998;
+            animation: particleFade 1s ease-out forwards;
+        }
+
+        @keyframes particleFade {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(0); opacity: 0; }
+        }
+
+        /* Click Ripple Effect */
+        .ripple {
+            position: fixed;
+            border-radius: 50%;
+            border: 2px solid var(--accent);
+            pointer-events: none;
+            z-index: 9997;
+            animation: rippleExpand 0.6s ease-out forwards;
+        }
+
+        @keyframes rippleExpand {
+            0% { width: 0; height: 0; opacity: 1; }
+            100% { width: 100px; height: 100px; opacity: 0; }
+        }
+
+        /* Mobile Game Controls */
+        .mobile-controls {
+            display: none;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .mobile-controls button {
+            padding: 15px;
+            font-size: 1.5rem;
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--text-primary);
+            cursor: pointer;
+        }
+
+        .mobile-controls button:active {
+            background: var(--primary-glow);
+        }
+
+        @media (max-width: 768px) {
+            .mobile-controls { display: grid; }
+            .games-grid { grid-template-columns: 1fr; }
+        }
+
+        /* Achievement Toast */
+        .achievement-toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--accent);
+            border-radius: 16px;
+            padding: 20px 30px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            z-index: 10000;
+            transform: translateX(150%);
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .achievement-toast.show {
+            transform: translateX(0);
+        }
+
+        .achievement-icon {
+            font-size: 2.5rem;
+        }
+
+        .achievement-text h4 {
+            color: var(--accent);
+            font-size: 0.9rem;
+            margin-bottom: 4px;
+        }
+
+        .achievement-text p {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
     </style>
 </head>
 <body>
+    <!-- Matrix Rain Canvas -->
+    <canvas id="matrixCanvas"></canvas>
+    
     <div class="bg-animation"></div>
     <div class="grid-bg"></div>
     <div class="orb orb-1"></div>
@@ -760,12 +1098,47 @@
     <div class="orb orb-3"></div>
     <div class="cursor-glow" id="cursorGlow"></div>
 
+    <!-- Konami Code Easter Egg Overlay -->
+    <div class="konami-overlay" id="konamiOverlay">
+        <div class="konami-content">
+            <h2>🎮 SECRET MODE UNLOCKED!</h2>
+            <p>Ты нашёл секретный режим! Вот твоя статистика:</p>
+            <div class="secret-stats">
+                <div class="secret-stat">
+                    <div class="secret-stat-value" id="secretVisits">0</div>
+                    <div class="secret-stat-label">Посещений</div>
+                </div>
+                <div class="secret-stat">
+                    <div class="secret-stat-value" id="secretClicks">0</div>
+                    <div class="secret-stat-label">Кликов</div>
+                </div>
+                <div class="secret-stat">
+                    <div class="secret-stat-value" id="secretTime">0s</div>
+                    <div class="secret-stat-label">На сайте</div>
+                </div>
+            </div>
+            <button class="game-btn game-btn-primary" onclick="closeKonami()">
+                <i class="fas fa-times"></i> Закрыть
+            </button>
+        </div>
+    </div>
+
+    <!-- Achievement Toast -->
+    <div class="achievement-toast" id="achievementToast">
+        <div class="achievement-icon">🏆</div>
+        <div class="achievement-text">
+            <h4>ACHIEVEMENT UNLOCKED</h4>
+            <p id="achievementName">First Visit!</p>
+        </div>
+    </div>
+
     <header id="header">
         <div class="logo">NiMv1</div>
         <nav>
             <a href="#skills">Навыки</a>
             <a href="#opensource">Open Source</a>
             <a href="#projects">Проекты</a>
+            <a href="#games">🎮 Игры</a>
             <a href="#contact">Контакты</a>
         </nav>
     </header>
@@ -1001,6 +1374,70 @@
         </div>
     </section>
 
+    <!-- Games Section -->
+    <section id="games" class="reveal">
+        <div class="section-header">
+            <div class="section-tag"><i class="fas fa-gamepad"></i> arcade</div>
+            <h2 class="section-title">Мини-игры</h2>
+            <p class="section-subtitle">Отдохни и поиграй! Попробуй побить рекорд 🎮</p>
+        </div>
+
+        <div class="games-grid">
+            <!-- Snake Game -->
+            <div class="game-card">
+                <div class="game-header">
+                    <div class="game-title">
+                        <i class="fas fa-worm"></i>
+                        <h3>Snake.java</h3>
+                    </div>
+                    <div class="game-score">Score: <span id="snakeScore">0</span></div>
+                </div>
+                <div class="game-container">
+                    <canvas id="snakeCanvas" width="320" height="320"></canvas>
+                    <div class="game-controls">
+                        <button class="game-btn game-btn-primary" id="snakeStart">
+                            <i class="fas fa-play"></i> Играть
+                        </button>
+                    </div>
+                    <div class="mobile-controls" id="snakeMobileControls">
+                        <div></div>
+                        <button onclick="snakeDirection='up'">⬆️</button>
+                        <div></div>
+                        <button onclick="snakeDirection='left'">⬅️</button>
+                        <button onclick="snakeDirection='down'">⬇️</button>
+                        <button onclick="snakeDirection='right'">➡️</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bug Catcher Game -->
+            <div class="game-card">
+                <div class="game-header">
+                    <div class="game-title">
+                        <i class="fas fa-bug"></i>
+                        <h3>BugCatcher.debug()</h3>
+                    </div>
+                    <div class="game-score">Bugs: <span id="bugScore">0</span> | Combo: <span id="bugCombo">x1</span></div>
+                </div>
+                <div class="game-container">
+                    <div id="bugGameArea"></div>
+                    <div class="game-controls">
+                        <button class="game-btn game-btn-primary" id="bugStart">
+                            <i class="fas fa-bug"></i> Ловить баги
+                        </button>
+                        <button class="game-btn game-btn-secondary" id="bugStop">
+                            <i class="fas fa-stop"></i> Стоп
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <p style="text-align: center; margin-top: 30px; color: var(--text-secondary); font-size: 0.9rem;">
+            💡 Подсказка: Попробуй ввести код Konami (↑↑↓↓←→←→BA) для секретного режима!
+        </p>
+    </section>
+
     <section id="contact" class="reveal">
         <div class="section-header">
             <div class="section-tag"><i class="fas fa-envelope"></i> contact</div>
@@ -1140,6 +1577,400 @@
                 }
             });
         });
+
+        // ========== SNAKE GAME ==========
+        const snakeCanvas = document.getElementById('snakeCanvas');
+        const snakeCtx = snakeCanvas.getContext('2d');
+        const snakeScoreEl = document.getElementById('snakeScore');
+        const gridSize = 20;
+        const tileCount = snakeCanvas.width / gridSize;
+        
+        let snake = [{x: 10, y: 10}];
+        let food = {x: 15, y: 15};
+        let snakeDirection = 'right';
+        let snakeScore = 0;
+        let snakeGameLoop = null;
+        let snakeSpeed = 100;
+
+        function drawSnakeGame() {
+            // Clear canvas
+            snakeCtx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+            snakeCtx.fillRect(0, 0, snakeCanvas.width, snakeCanvas.height);
+
+            // Draw grid
+            snakeCtx.strokeStyle = 'rgba(99, 102, 241, 0.1)';
+            for (let i = 0; i < tileCount; i++) {
+                snakeCtx.beginPath();
+                snakeCtx.moveTo(i * gridSize, 0);
+                snakeCtx.lineTo(i * gridSize, snakeCanvas.height);
+                snakeCtx.stroke();
+                snakeCtx.beginPath();
+                snakeCtx.moveTo(0, i * gridSize);
+                snakeCtx.lineTo(snakeCanvas.width, i * gridSize);
+                snakeCtx.stroke();
+            }
+
+            // Draw food with glow
+            snakeCtx.shadowBlur = 15;
+            snakeCtx.shadowColor = '#22d3ee';
+            snakeCtx.fillStyle = '#22d3ee';
+            snakeCtx.beginPath();
+            snakeCtx.arc(food.x * gridSize + gridSize/2, food.y * gridSize + gridSize/2, gridSize/2 - 2, 0, Math.PI * 2);
+            snakeCtx.fill();
+            snakeCtx.shadowBlur = 0;
+
+            // Draw snake
+            snake.forEach((segment, index) => {
+                const gradient = snakeCtx.createRadialGradient(
+                    segment.x * gridSize + gridSize/2, segment.y * gridSize + gridSize/2, 0,
+                    segment.x * gridSize + gridSize/2, segment.y * gridSize + gridSize/2, gridSize/2
+                );
+                gradient.addColorStop(0, index === 0 ? '#8b5cf6' : '#6366f1');
+                gradient.addColorStop(1, index === 0 ? '#6366f1' : '#4f46e5');
+                
+                snakeCtx.fillStyle = gradient;
+                snakeCtx.beginPath();
+                snakeCtx.roundRect(segment.x * gridSize + 1, segment.y * gridSize + 1, gridSize - 2, gridSize - 2, 4);
+                snakeCtx.fill();
+            });
+        }
+
+        function updateSnake() {
+            const head = {...snake[0]};
+            
+            switch(snakeDirection) {
+                case 'up': head.y--; break;
+                case 'down': head.y++; break;
+                case 'left': head.x--; break;
+                case 'right': head.x++; break;
+            }
+
+            // Wall collision
+            if (head.x < 0 || head.x >= tileCount || head.y < 0 || head.y >= tileCount) {
+                gameOver();
+                return;
+            }
+
+            // Self collision
+            if (snake.some(s => s.x === head.x && s.y === head.y)) {
+                gameOver();
+                return;
+            }
+
+            snake.unshift(head);
+
+            // Food collision
+            if (head.x === food.x && head.y === food.y) {
+                snakeScore += 10;
+                snakeScoreEl.textContent = snakeScore;
+                spawnFood();
+                
+                // Speed up
+                if (snakeSpeed > 50) {
+                    snakeSpeed -= 2;
+                    clearInterval(snakeGameLoop);
+                    snakeGameLoop = setInterval(() => { updateSnake(); drawSnakeGame(); }, snakeSpeed);
+                }
+
+                // Achievement check
+                if (snakeScore === 50) showAchievement('🐍 Snake Master!');
+                if (snakeScore === 100) showAchievement('🏆 Snake Legend!');
+            } else {
+                snake.pop();
+            }
+
+            drawSnakeGame();
+        }
+
+        function spawnFood() {
+            do {
+                food = {
+                    x: Math.floor(Math.random() * tileCount),
+                    y: Math.floor(Math.random() * tileCount)
+                };
+            } while (snake.some(s => s.x === food.x && s.y === food.y));
+        }
+
+        function gameOver() {
+            clearInterval(snakeGameLoop);
+            snakeGameLoop = null;
+            
+            snakeCtx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+            snakeCtx.fillRect(0, 0, snakeCanvas.width, snakeCanvas.height);
+            
+            snakeCtx.fillStyle = '#ef4444';
+            snakeCtx.font = 'bold 24px Space Grotesk';
+            snakeCtx.textAlign = 'center';
+            snakeCtx.fillText('GAME OVER', snakeCanvas.width/2, snakeCanvas.height/2 - 20);
+            
+            snakeCtx.fillStyle = '#22d3ee';
+            snakeCtx.font = '18px JetBrains Mono';
+            snakeCtx.fillText(`Score: ${snakeScore}`, snakeCanvas.width/2, snakeCanvas.height/2 + 20);
+        }
+
+        function startSnakeGame() {
+            snake = [{x: 10, y: 10}];
+            snakeDirection = 'right';
+            snakeScore = 0;
+            snakeSpeed = 100;
+            snakeScoreEl.textContent = '0';
+            spawnFood();
+            
+            if (snakeGameLoop) clearInterval(snakeGameLoop);
+            snakeGameLoop = setInterval(() => { updateSnake(); drawSnakeGame(); }, snakeSpeed);
+        }
+
+        document.getElementById('snakeStart').addEventListener('click', startSnakeGame);
+
+        document.addEventListener('keydown', (e) => {
+            const key = e.key.toLowerCase();
+            if ((key === 'arrowup' || key === 'w') && snakeDirection !== 'down') snakeDirection = 'up';
+            if ((key === 'arrowdown' || key === 's') && snakeDirection !== 'up') snakeDirection = 'down';
+            if ((key === 'arrowleft' || key === 'a') && snakeDirection !== 'right') snakeDirection = 'left';
+            if ((key === 'arrowright' || key === 'd') && snakeDirection !== 'left') snakeDirection = 'right';
+        });
+
+        // Initial draw
+        drawSnakeGame();
+
+        // ========== BUG CATCHER GAME ==========
+        const bugArea = document.getElementById('bugGameArea');
+        const bugScoreEl = document.getElementById('bugScore');
+        const bugComboEl = document.getElementById('bugCombo');
+        
+        let bugScore = 0;
+        let bugCombo = 1;
+        let lastCatchTime = 0;
+        let bugSpawnInterval = null;
+        const bugTypes = ['🐛', '🐜', '🪲', '🦗', '🕷️', '🦟'];
+
+        function spawnBug() {
+            const bug = document.createElement('div');
+            bug.className = 'bug';
+            bug.textContent = bugTypes[Math.floor(Math.random() * bugTypes.length)];
+            bug.style.left = Math.random() * (bugArea.offsetWidth - 40) + 'px';
+            bug.style.top = Math.random() * (bugArea.offsetHeight - 40) + 'px';
+            bug.style.animationDelay = Math.random() * 2 + 's';
+            
+            bug.addEventListener('click', (e) => {
+                e.stopPropagation();
+                catchBug(bug, e);
+            });
+            
+            bugArea.appendChild(bug);
+
+            // Remove bug after 3 seconds if not caught
+            setTimeout(() => {
+                if (bug.parentNode && !bug.classList.contains('caught')) {
+                    bug.remove();
+                    bugCombo = 1;
+                    bugComboEl.textContent = 'x1';
+                }
+            }, 3000);
+        }
+
+        function catchBug(bug, e) {
+            bug.classList.add('caught');
+            
+            const now = Date.now();
+            if (now - lastCatchTime < 1000) {
+                bugCombo = Math.min(bugCombo + 1, 10);
+            } else {
+                bugCombo = 1;
+            }
+            lastCatchTime = now;
+            
+            const points = 10 * bugCombo;
+            bugScore += points;
+            bugScoreEl.textContent = bugScore;
+            bugComboEl.textContent = 'x' + bugCombo;
+            
+            // Show combo text
+            const comboText = document.createElement('div');
+            comboText.className = 'combo-text';
+            comboText.textContent = '+' + points;
+            comboText.style.left = e.offsetX + 'px';
+            comboText.style.top = e.offsetY + 'px';
+            comboText.style.fontSize = (16 + bugCombo * 2) + 'px';
+            bugArea.appendChild(comboText);
+            
+            setTimeout(() => {
+                bug.remove();
+                comboText.remove();
+            }, 300);
+
+            // Achievements
+            if (bugScore >= 100 && !localStorage.getItem('ach_bug100')) {
+                localStorage.setItem('ach_bug100', 'true');
+                showAchievement('🐛 Bug Hunter!');
+            }
+            if (bugCombo >= 5 && !localStorage.getItem('ach_combo5')) {
+                localStorage.setItem('ach_combo5', 'true');
+                showAchievement('⚡ Combo Master!');
+            }
+        }
+
+        function startBugGame() {
+            bugScore = 0;
+            bugCombo = 1;
+            bugScoreEl.textContent = '0';
+            bugComboEl.textContent = 'x1';
+            bugArea.innerHTML = '';
+            
+            if (bugSpawnInterval) clearInterval(bugSpawnInterval);
+            bugSpawnInterval = setInterval(spawnBug, 800);
+            spawnBug();
+        }
+
+        function stopBugGame() {
+            if (bugSpawnInterval) {
+                clearInterval(bugSpawnInterval);
+                bugSpawnInterval = null;
+            }
+            bugArea.innerHTML = '<p style="color: var(--text-secondary); text-align: center; padding-top: 130px;">Нажми "Ловить баги" чтобы начать!</p>';
+        }
+
+        document.getElementById('bugStart').addEventListener('click', startBugGame);
+        document.getElementById('bugStop').addEventListener('click', stopBugGame);
+        stopBugGame();
+
+        // ========== MATRIX RAIN EFFECT ==========
+        const matrixCanvas = document.getElementById('matrixCanvas');
+        const matrixCtx = matrixCanvas.getContext('2d');
+        
+        function resizeMatrix() {
+            matrixCanvas.width = window.innerWidth;
+            matrixCanvas.height = window.innerHeight;
+        }
+        resizeMatrix();
+        window.addEventListener('resize', resizeMatrix);
+
+        const matrixChars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEF';
+        const fontSize = 14;
+        let columns = matrixCanvas.width / fontSize;
+        let drops = [];
+
+        for (let i = 0; i < columns; i++) {
+            drops[i] = Math.random() * -100;
+        }
+
+        function drawMatrix() {
+            matrixCtx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            matrixCtx.fillRect(0, 0, matrixCanvas.width, matrixCanvas.height);
+            
+            matrixCtx.fillStyle = '#22d3ee';
+            matrixCtx.font = fontSize + 'px JetBrains Mono';
+            
+            for (let i = 0; i < drops.length; i++) {
+                const char = matrixChars[Math.floor(Math.random() * matrixChars.length)];
+                matrixCtx.fillText(char, i * fontSize, drops[i] * fontSize);
+                
+                if (drops[i] * fontSize > matrixCanvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+
+        let matrixInterval = setInterval(drawMatrix, 50);
+
+        // ========== KONAMI CODE ==========
+        const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+        let konamiIndex = 0;
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === konamiCode[konamiIndex] || e.key.toLowerCase() === konamiCode[konamiIndex]) {
+                konamiIndex++;
+                if (konamiIndex === konamiCode.length) {
+                    activateKonami();
+                    konamiIndex = 0;
+                }
+            } else {
+                konamiIndex = 0;
+            }
+        });
+
+        function activateKonami() {
+            matrixCanvas.classList.add('active');
+            document.getElementById('konamiOverlay').classList.add('active');
+            
+            // Update secret stats
+            const visits = parseInt(localStorage.getItem('visits') || '1');
+            const clicks = parseInt(localStorage.getItem('clicks') || '0');
+            const timeOnSite = Math.floor((Date.now() - pageLoadTime) / 1000);
+            
+            document.getElementById('secretVisits').textContent = visits;
+            document.getElementById('secretClicks').textContent = clicks;
+            document.getElementById('secretTime').textContent = timeOnSite + 's';
+            
+            if (!localStorage.getItem('ach_konami')) {
+                localStorage.setItem('ach_konami', 'true');
+                setTimeout(() => showAchievement('🎮 Konami Master!'), 1000);
+            }
+        }
+
+        function closeKonami() {
+            document.getElementById('konamiOverlay').classList.remove('active');
+            matrixCanvas.classList.remove('active');
+        }
+
+        // ========== CLICK PARTICLES & RIPPLE ==========
+        let clickCount = 0;
+        const pageLoadTime = Date.now();
+
+        document.addEventListener('click', (e) => {
+            clickCount++;
+            localStorage.setItem('clicks', clickCount);
+            
+            // Ripple effect
+            const ripple = document.createElement('div');
+            ripple.className = 'ripple';
+            ripple.style.left = (e.clientX - 50) + 'px';
+            ripple.style.top = (e.clientY - 50) + 'px';
+            document.body.appendChild(ripple);
+            setTimeout(() => ripple.remove(), 600);
+            
+            // Particles
+            for (let i = 0; i < 5; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                const size = Math.random() * 8 + 4;
+                const colors = ['#6366f1', '#8b5cf6', '#22d3ee', '#10b981'];
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+                particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+                particle.style.left = e.clientX + 'px';
+                particle.style.top = e.clientY + 'px';
+                
+                const angle = Math.random() * Math.PI * 2;
+                const velocity = Math.random() * 50 + 30;
+                const dx = Math.cos(angle) * velocity;
+                const dy = Math.sin(angle) * velocity;
+                
+                particle.style.transform = `translate(${dx}px, ${dy}px)`;
+                document.body.appendChild(particle);
+                setTimeout(() => particle.remove(), 1000);
+            }
+        });
+
+        // ========== ACHIEVEMENTS ==========
+        function showAchievement(name) {
+            const toast = document.getElementById('achievementToast');
+            document.getElementById('achievementName').textContent = name;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 4000);
+        }
+
+        // Track visits
+        const visits = parseInt(localStorage.getItem('visits') || '0') + 1;
+        localStorage.setItem('visits', visits);
+
+        // First visit achievement
+        if (visits === 1) {
+            setTimeout(() => showAchievement('👋 Welcome!'), 2000);
+        } else if (visits === 10) {
+            showAchievement('🔟 Loyal Visitor!');
+        }
     </script>
 </body>
 </html>
