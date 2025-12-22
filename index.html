@@ -44,18 +44,81 @@
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 3px; }
 
+        /* Custom Cursor */
+        .custom-cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--accent);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 10001;
+            transform: translate(-50%, -50%);
+            transition: width 0.2s, height 0.2s, border-color 0.2s, background 0.2s;
+            mix-blend-mode: difference;
+        }
+
+        .custom-cursor.hover {
+            width: 50px;
+            height: 50px;
+            border-color: var(--primary);
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        .custom-cursor.click {
+            width: 15px;
+            height: 15px;
+            background: var(--accent);
+        }
+
+        .cursor-dot {
+            position: fixed;
+            width: 6px;
+            height: 6px;
+            background: var(--accent);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 10002;
+            transform: translate(-50%, -50%);
+        }
+
         /* Cursor Glow Effect */
         .cursor-glow {
             position: fixed;
-            width: 400px;
-            height: 400px;
+            width: 300px;
+            height: 300px;
             background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
             border-radius: 50%;
             pointer-events: none;
             z-index: 0;
             transform: translate(-50%, -50%);
-            transition: opacity 0.3s;
-            opacity: 0.5;
+            transition: opacity 0.3s, width 0.5s, height 0.5s;
+            opacity: 0.4;
+        }
+
+        .cursor-glow.active {
+            width: 500px;
+            height: 500px;
+            opacity: 0.6;
+        }
+
+        /* Cursor Trail */
+        .cursor-trail {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            background: var(--primary);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 10000;
+            opacity: 0.6;
+            transform: translate(-50%, -50%);
+            animation: trailFade 0.5s ease-out forwards;
+        }
+
+        @keyframes trailFade {
+            0% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); }
+            100% { opacity: 0; transform: translate(-50%, -50%) scale(0); }
         }
 
         /* Animated Background */
@@ -1420,6 +1483,8 @@
     <div class="orb orb-2"></div>
     <div class="orb orb-3"></div>
     <div class="cursor-glow" id="cursorGlow"></div>
+    <div class="custom-cursor" id="customCursor"></div>
+    <div class="cursor-dot" id="cursorDot"></div>
 
     <!-- Konami Code Easter Egg Overlay -->
     <div class="konami-overlay" id="konamiOverlay">
@@ -1872,24 +1937,81 @@
     </footer>
 
     <script>
-        // Cursor Glow Effect
+        // ========== CUSTOM CURSOR SYSTEM ==========
         const cursorGlow = document.getElementById('cursorGlow');
+        const customCursor = document.getElementById('customCursor');
+        const cursorDot = document.getElementById('cursorDot');
+        
         let mouseX = 0, mouseY = 0;
+        let cursorX = 0, cursorY = 0;
         let glowX = 0, glowY = 0;
+        let trailCounter = 0;
+
+        // Скрываем стандартный курсор
+        document.body.style.cursor = 'none';
 
         document.addEventListener('mousemove', (e) => {
             mouseX = e.clientX;
             mouseY = e.clientY;
+            
+            // Точка следует мгновенно
+            cursorDot.style.left = mouseX + 'px';
+            cursorDot.style.top = mouseY + 'px';
+            
+            // Trail эффект каждые 3 движения
+            trailCounter++;
+            if (trailCounter % 3 === 0) {
+                createTrail(mouseX, mouseY);
+            }
         });
 
-        function animateGlow() {
-            glowX += (mouseX - glowX) * 0.1;
-            glowY += (mouseY - glowY) * 0.1;
+        function createTrail(x, y) {
+            const trail = document.createElement('div');
+            trail.className = 'cursor-trail';
+            trail.style.left = x + 'px';
+            trail.style.top = y + 'px';
+            document.body.appendChild(trail);
+            setTimeout(() => trail.remove(), 500);
+        }
+
+        function animateCursor() {
+            // Плавное следование курсора
+            cursorX += (mouseX - cursorX) * 0.15;
+            cursorY += (mouseY - cursorY) * 0.15;
+            customCursor.style.left = cursorX + 'px';
+            customCursor.style.top = cursorY + 'px';
+            
+            // Ещё более плавное следование свечения
+            glowX += (mouseX - glowX) * 0.08;
+            glowY += (mouseY - glowY) * 0.08;
             cursorGlow.style.left = glowX + 'px';
             cursorGlow.style.top = glowY + 'px';
-            requestAnimationFrame(animateGlow);
+            
+            requestAnimationFrame(animateCursor);
         }
-        animateGlow();
+        animateCursor();
+
+        // Hover эффект на интерактивных элементах
+        const hoverElements = document.querySelectorAll('a, button, .contact-card, .project-card, .game-card, .skill-tag, .nav-link');
+        hoverElements.forEach(el => {
+            el.style.cursor = 'none';
+            el.addEventListener('mouseenter', () => {
+                customCursor.classList.add('hover');
+                cursorGlow.classList.add('active');
+            });
+            el.addEventListener('mouseleave', () => {
+                customCursor.classList.remove('hover');
+                cursorGlow.classList.remove('active');
+            });
+        });
+
+        // Click эффект
+        document.addEventListener('mousedown', () => {
+            customCursor.classList.add('click');
+        });
+        document.addEventListener('mouseup', () => {
+            customCursor.classList.remove('click');
+        });
 
         // Header scroll effect
         const header = document.getElementById('header');
@@ -2280,20 +2402,36 @@
         let matrixInterval = setInterval(drawMatrix, 50);
 
         // ========== KONAMI CODE ==========
-        const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+        const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'KeyB', 'KeyA'];
         let konamiIndex = 0;
+        let konamiTimeout = null;
 
-        document.addEventListener('keydown', (e) => {
-            if (e.key === konamiCode[konamiIndex] || e.key.toLowerCase() === konamiCode[konamiIndex]) {
+        // Используем keydown с проверкой code вместо key для надёжности
+        window.addEventListener('keydown', (e) => {
+            // Проверяем и key и code для совместимости
+            const expectedKey = konamiCode[konamiIndex];
+            const isMatch = e.code === expectedKey || 
+                           e.key === expectedKey || 
+                           e.key.toLowerCase() === expectedKey.toLowerCase() ||
+                           (expectedKey === 'KeyB' && e.key.toLowerCase() === 'b') ||
+                           (expectedKey === 'KeyA' && e.key.toLowerCase() === 'a');
+            
+            if (isMatch) {
                 konamiIndex++;
+                // Сбрасываем таймер при каждом успешном нажатии
+                clearTimeout(konamiTimeout);
+                konamiTimeout = setTimeout(() => { konamiIndex = 0; }, 3000);
+                
                 if (konamiIndex === konamiCode.length) {
                     activateKonami();
                     konamiIndex = 0;
+                    clearTimeout(konamiTimeout);
                 }
-            } else {
+            } else if (!['Shift', 'Control', 'Alt', 'Meta'].includes(e.key)) {
+                // Сбрасываем только если это не модификатор
                 konamiIndex = 0;
             }
-        });
+        }, true); // capture phase для приоритета
 
         function activateKonami() {
             matrixCanvas.classList.add('active');
