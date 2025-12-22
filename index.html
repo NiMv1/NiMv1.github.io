@@ -1085,6 +1085,290 @@
             font-size: 1.1rem;
             font-weight: 600;
         }
+
+        /* ========== TERMINAL EMULATOR ========== */
+        .terminal-section {
+            margin-top: 60px;
+        }
+
+        .terminal {
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            max-width: 700px;
+            margin: 0 auto;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .terminal-header {
+            background: rgba(30, 41, 59, 0.9);
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .terminal-btn {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .terminal-btn.red { background: #ef4444; }
+        .terminal-btn.yellow { background: #f59e0b; }
+        .terminal-btn.green { background: #10b981; }
+
+        .terminal-title {
+            margin-left: 10px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .terminal-body {
+            padding: 20px;
+            height: 300px;
+            overflow-y: auto;
+        }
+
+        .terminal-line {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+
+        .terminal-prompt {
+            color: var(--success);
+        }
+
+        .terminal-command {
+            color: var(--text-primary);
+        }
+
+        .terminal-output {
+            color: var(--text-secondary);
+            padding-left: 20px;
+        }
+
+        .terminal-input-line {
+            display: flex;
+            align-items: center;
+        }
+
+        #terminalInput {
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            flex: 1;
+            outline: none;
+            caret-color: var(--accent);
+        }
+
+        .terminal-cursor {
+            display: inline-block;
+            width: 8px;
+            height: 16px;
+            background: var(--accent);
+            animation: terminalBlink 1s infinite;
+            margin-left: 2px;
+        }
+
+        @keyframes terminalBlink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        /* ========== 3D TILT EFFECT ========== */
+        .tilt-card {
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        .tilt-card:hover {
+            transform: rotateX(var(--rotateX)) rotateY(var(--rotateY));
+        }
+
+        .tilt-card .tilt-inner {
+            transform: translateZ(30px);
+        }
+
+        /* ========== FLOATING ACTION BUTTON ========== */
+        .fab-container {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            z-index: 1000;
+        }
+
+        .fab {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            box-shadow: 0 4px 20px var(--primary-glow);
+            transition: all 0.3s;
+        }
+
+        .fab:hover {
+            transform: scale(1.1) rotate(90deg);
+            box-shadow: 0 8px 30px var(--primary-glow);
+        }
+
+        .fab-menu {
+            position: absolute;
+            bottom: 70px;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: all 0.3s;
+        }
+
+        .fab-container:hover .fab-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .fab-item {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            transition: all 0.3s;
+        }
+
+        .fab-item:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            transform: scale(1.1);
+        }
+
+        /* ========== THEME SWITCHER ========== */
+        .theme-toggle {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            z-index: 1000;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 30px;
+            padding: 8px;
+            display: flex;
+            gap: 5px;
+        }
+
+        .theme-btn {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .theme-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .theme-btn.active {
+            border-color: var(--accent);
+        }
+
+        .theme-btn.cyber { background: linear-gradient(135deg, #6366f1, #22d3ee); }
+        .theme-btn.sunset { background: linear-gradient(135deg, #f97316, #ec4899); }
+        .theme-btn.forest { background: linear-gradient(135deg, #10b981, #84cc16); }
+        .theme-btn.ocean { background: linear-gradient(135deg, #0ea5e9, #8b5cf6); }
+
+        /* ========== SCROLL PROGRESS ========== */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            z-index: 10001;
+            transition: width 0.1s;
+        }
+
+        /* ========== TYPING GAME ========== */
+        .typing-game-area {
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .typing-word {
+            font-size: 2rem;
+            font-family: 'JetBrains Mono', monospace;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+        }
+
+        .typing-word .correct { color: var(--success); }
+        .typing-word .incorrect { color: var(--danger); }
+        .typing-word .pending { color: var(--text-secondary); }
+
+        #typingGameInput {
+            background: var(--glass);
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            padding: 15px 25px;
+            font-size: 1.2rem;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--text-primary);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        #typingGameInput:focus {
+            border-color: var(--accent);
+        }
+
+        .typing-stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 20px;
+        }
+
+        .typing-stat {
+            text-align: center;
+        }
+
+        .typing-stat-value {
+            font-size: 1.8rem;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent);
+        }
+
+        .typing-stat-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
     </style>
 </head>
 <body>
@@ -1130,6 +1414,29 @@
             <h4>ACHIEVEMENT UNLOCKED</h4>
             <p id="achievementName">First Visit!</p>
         </div>
+    </div>
+
+    <!-- Scroll Progress Bar -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <!-- Theme Switcher -->
+    <div class="theme-toggle">
+        <button class="theme-btn cyber active" onclick="setTheme('cyber')" title="Cyber"></button>
+        <button class="theme-btn sunset" onclick="setTheme('sunset')" title="Sunset"></button>
+        <button class="theme-btn forest" onclick="setTheme('forest')" title="Forest"></button>
+        <button class="theme-btn ocean" onclick="setTheme('ocean')" title="Ocean"></button>
+    </div>
+
+    <!-- Floating Action Button -->
+    <div class="fab-container">
+        <div class="fab-menu">
+            <button class="fab-item" onclick="scrollToTop()" title="Наверх">⬆️</button>
+            <button class="fab-item" onclick="toggleMatrix()" title="Matrix">🌧️</button>
+            <button class="fab-item" onclick="location.href='#games'" title="Игры">🎮</button>
+        </div>
+        <button class="fab">
+            <i class="fas fa-plus"></i>
+        </button>
     </div>
 
     <header id="header">
@@ -1429,6 +1736,61 @@
                             <i class="fas fa-stop"></i> Стоп
                         </button>
                     </div>
+                </div>
+            </div>
+            <!-- Typing Speed Game -->
+            <div class="game-card">
+                <div class="game-header">
+                    <div class="game-title">
+                        <i class="fas fa-keyboard"></i>
+                        <h3>TypingSpeed.test()</h3>
+                    </div>
+                    <div class="game-score">WPM: <span id="typingWPM">0</span></div>
+                </div>
+                <div class="game-container">
+                    <div class="typing-game-area">
+                        <div class="typing-word" id="typingWord"></div>
+                        <input type="text" id="typingGameInput" placeholder="Начни печатать..." autocomplete="off">
+                        <div class="typing-stats">
+                            <div class="typing-stat">
+                                <div class="typing-stat-value" id="typingAccuracy">100%</div>
+                                <div class="typing-stat-label">Точность</div>
+                            </div>
+                            <div class="typing-stat">
+                                <div class="typing-stat-value" id="typingWords">0</div>
+                                <div class="typing-stat-label">Слов</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="game-controls">
+                        <button class="game-btn game-btn-primary" id="typingStart">
+                            <i class="fas fa-play"></i> Старт
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Interactive Terminal -->
+        <div class="terminal-section">
+            <div class="terminal">
+                <div class="terminal-header">
+                    <div class="terminal-btn red"></div>
+                    <div class="terminal-btn yellow"></div>
+                    <div class="terminal-btn green"></div>
+                    <span class="terminal-title">nimv1@portfolio:~</span>
+                </div>
+                <div class="terminal-body" id="terminalBody">
+                    <div class="terminal-line">
+                        <span class="terminal-output">Welcome to NiMv1 Terminal v1.0</span>
+                    </div>
+                    <div class="terminal-line">
+                        <span class="terminal-output">Type 'help' for available commands</span>
+                    </div>
+                </div>
+                <div class="terminal-input-line" style="padding: 0 20px 20px;">
+                    <span class="terminal-prompt">nimv1@portfolio:~$&nbsp;</span>
+                    <input type="text" id="terminalInput" placeholder="Enter command...">
                 </div>
             </div>
         </div>
@@ -1971,6 +2333,214 @@
         } else if (visits === 10) {
             showAchievement('🔟 Loyal Visitor!');
         }
+
+        // ========== SCROLL PROGRESS ==========
+        window.addEventListener('scroll', () => {
+            const scrollProgress = document.getElementById('scrollProgress');
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercent = (scrollTop / docHeight) * 100;
+            scrollProgress.style.width = scrollPercent + '%';
+        });
+
+        // ========== THEME SWITCHER ==========
+        const themes = {
+            cyber: { primary: '#6366f1', secondary: '#8b5cf6', accent: '#22d3ee' },
+            sunset: { primary: '#f97316', secondary: '#ec4899', accent: '#fbbf24' },
+            forest: { primary: '#10b981', secondary: '#84cc16', accent: '#34d399' },
+            ocean: { primary: '#0ea5e9', secondary: '#8b5cf6', accent: '#06b6d4' }
+        };
+
+        function setTheme(themeName) {
+            const theme = themes[themeName];
+            document.documentElement.style.setProperty('--primary', theme.primary);
+            document.documentElement.style.setProperty('--secondary', theme.secondary);
+            document.documentElement.style.setProperty('--accent', theme.accent);
+            
+            document.querySelectorAll('.theme-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`.theme-btn.${themeName}`).classList.add('active');
+            
+            localStorage.setItem('theme', themeName);
+        }
+
+        // Load saved theme
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) setTheme(savedTheme);
+
+        // ========== HELPER FUNCTIONS ==========
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function toggleMatrix() {
+            matrixCanvas.classList.toggle('active');
+        }
+
+        // ========== TERMINAL EMULATOR ==========
+        const terminalInput = document.getElementById('terminalInput');
+        const terminalBody = document.getElementById('terminalBody');
+
+        const terminalCommands = {
+            help: () => `Available commands:
+  help     - Show this help
+  about    - About me
+  skills   - My tech stack
+  projects - My projects
+  contact  - Contact info
+  github   - Open GitHub
+  clear    - Clear terminal
+  matrix   - Toggle matrix effect
+  date     - Current date
+  whoami   - Who am I?
+  fortune  - Random fortune`,
+            about: () => 'Java Backend Developer | Open Source Contributor | 30+ PRs | 18 Merged',
+            skills: () => 'Java 17/21, Spring Boot, PostgreSQL, Redis, Kafka, Docker, K8s, gRPC',
+            projects: () => 'Task Management System, URL Shortener, Payment Service',
+            contact: () => 'Email: nimv1@mail.ru | Telegram: @nimv1 | GitHub: NiMv1',
+            github: () => { window.open('https://github.com/NiMv1', '_blank'); return 'Opening GitHub...'; },
+            clear: () => { terminalBody.innerHTML = ''; return null; },
+            matrix: () => { toggleMatrix(); return 'Matrix effect toggled!'; },
+            date: () => new Date().toLocaleString('ru-RU'),
+            whoami: () => 'NiMv1 - Java Backend Developer & Open Source Enthusiast',
+            fortune: () => {
+                const fortunes = [
+                    '🎯 Today is a great day to write clean code!',
+                    '☕ A cup of coffee and some Java will solve everything.',
+                    '🐛 The bug you seek is in the code you trust.',
+                    '🚀 Your next PR will be merged!',
+                    '💡 Refactoring is the path to enlightenment.',
+                    '🔥 Hot reload is your friend.',
+                    '📚 Read the docs, they said. It will be fun, they said.'
+                ];
+                return fortunes[Math.floor(Math.random() * fortunes.length)];
+            }
+        };
+
+        terminalInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                const cmd = terminalInput.value.trim().toLowerCase();
+                terminalInput.value = '';
+
+                // Add command line
+                const cmdLine = document.createElement('div');
+                cmdLine.className = 'terminal-line';
+                cmdLine.innerHTML = `<span class="terminal-prompt">nimv1@portfolio:~$</span> <span class="terminal-command">${cmd}</span>`;
+                terminalBody.appendChild(cmdLine);
+
+                // Execute command
+                if (cmd && terminalCommands[cmd]) {
+                    const output = terminalCommands[cmd]();
+                    if (output) {
+                        const outputLine = document.createElement('div');
+                        outputLine.className = 'terminal-line';
+                        outputLine.innerHTML = `<span class="terminal-output">${output.replace(/\n/g, '<br>')}</span>`;
+                        terminalBody.appendChild(outputLine);
+                    }
+                } else if (cmd) {
+                    const errorLine = document.createElement('div');
+                    errorLine.className = 'terminal-line';
+                    errorLine.innerHTML = `<span class="terminal-output" style="color: var(--danger);">Command not found: ${cmd}. Type 'help' for available commands.</span>`;
+                    terminalBody.appendChild(errorLine);
+                }
+
+                terminalBody.scrollTop = terminalBody.scrollHeight;
+            }
+        });
+
+        // ========== TYPING SPEED GAME ==========
+        const typingWords = [
+            'java', 'spring', 'kafka', 'docker', 'redis', 'postgres', 'kubernetes',
+            'microservice', 'backend', 'developer', 'function', 'interface', 'abstract',
+            'exception', 'thread', 'stream', 'lambda', 'annotation', 'dependency',
+            'injection', 'controller', 'service', 'repository', 'entity', 'database'
+        ];
+
+        let typingGameActive = false;
+        let typingStartTime = 0;
+        let typingCorrectWords = 0;
+        let typingTotalChars = 0;
+        let typingCorrectChars = 0;
+        let currentTypingWord = '';
+
+        const typingWordEl = document.getElementById('typingWord');
+        const typingGameInput = document.getElementById('typingGameInput');
+        const typingWPMEl = document.getElementById('typingWPM');
+        const typingAccuracyEl = document.getElementById('typingAccuracy');
+        const typingWordsEl = document.getElementById('typingWords');
+
+        function getRandomWord() {
+            return typingWords[Math.floor(Math.random() * typingWords.length)];
+        }
+
+        function startTypingGame() {
+            typingGameActive = true;
+            typingStartTime = Date.now();
+            typingCorrectWords = 0;
+            typingTotalChars = 0;
+            typingCorrectChars = 0;
+            typingWPMEl.textContent = '0';
+            typingAccuracyEl.textContent = '100%';
+            typingWordsEl.textContent = '0';
+            typingGameInput.value = '';
+            typingGameInput.focus();
+            nextTypingWord();
+        }
+
+        function nextTypingWord() {
+            currentTypingWord = getRandomWord();
+            typingWordEl.innerHTML = currentTypingWord.split('').map(c => `<span class="pending">${c}</span>`).join('');
+        }
+
+        function updateTypingDisplay(input) {
+            const chars = currentTypingWord.split('');
+            const inputChars = input.split('');
+            
+            typingWordEl.innerHTML = chars.map((c, i) => {
+                if (i >= inputChars.length) return `<span class="pending">${c}</span>`;
+                return inputChars[i] === c 
+                    ? `<span class="correct">${c}</span>` 
+                    : `<span class="incorrect">${c}</span>`;
+            }).join('');
+        }
+
+        typingGameInput.addEventListener('input', (e) => {
+            if (!typingGameActive) return;
+            
+            const input = e.target.value;
+            updateTypingDisplay(input);
+
+            if (input === currentTypingWord) {
+                typingCorrectWords++;
+                typingCorrectChars += currentTypingWord.length;
+                typingTotalChars += currentTypingWord.length;
+                typingWordsEl.textContent = typingCorrectWords;
+                
+                // Calculate WPM
+                const elapsedMinutes = (Date.now() - typingStartTime) / 60000;
+                const wpm = Math.round(typingCorrectWords / elapsedMinutes) || 0;
+                typingWPMEl.textContent = wpm;
+                
+                // Calculate accuracy
+                const accuracy = Math.round((typingCorrectChars / typingTotalChars) * 100);
+                typingAccuracyEl.textContent = accuracy + '%';
+                
+                typingGameInput.value = '';
+                nextTypingWord();
+
+                // Achievements
+                if (typingCorrectWords === 10 && !localStorage.getItem('ach_typing10')) {
+                    localStorage.setItem('ach_typing10', 'true');
+                    showAchievement('⌨️ Fast Fingers!');
+                }
+                if (wpm >= 60 && !localStorage.getItem('ach_wpm60')) {
+                    localStorage.setItem('ach_wpm60', 'true');
+                    showAchievement('🚀 Speed Demon!');
+                }
+            }
+        });
+
+        document.getElementById('typingStart').addEventListener('click', startTypingGame);
+        nextTypingWord(); // Initialize
     </script>
 </body>
 </html>
