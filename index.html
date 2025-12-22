@@ -668,33 +668,69 @@
         }
 
         .contact-card {
-            background: var(--bg-card);
-            backdrop-filter: blur(10px);
-            padding: 30px 50px;
-            border-radius: 16px;
+            background: linear-gradient(135deg, var(--bg-card) 0%, rgba(99, 102, 241, 0.05) 100%);
+            backdrop-filter: blur(20px);
+            padding: 24px 32px;
+            border-radius: 20px;
             border: 1px solid var(--border);
             text-decoration: none;
             color: var(--text-primary);
-            transition: all 0.3s;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, transparent 0%, rgba(99, 102, 241, 0.1) 100%);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .contact-card:hover::before {
+            opacity: 1;
         }
 
         .contact-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-8px) scale(1.02);
             border-color: var(--primary);
-            box-shadow: 0 15px 30px rgba(99, 102, 241, 0.15);
+            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.25), 0 0 30px rgba(99, 102, 241, 0.1);
         }
 
         .contact-card i {
-            font-size: 1.8rem;
-            color: var(--primary);
+            font-size: 1.6rem;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 12px;
+            color: white;
+            position: relative;
+            z-index: 1;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .contact-card:hover i {
+            transform: scale(1.1) rotate(-5deg);
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4);
         }
 
         .contact-card span {
-            font-size: 1.1rem;
-            font-weight: 500;
+            font-size: 1.05rem;
+            font-weight: 600;
+            position: relative;
+            z-index: 1;
+            letter-spacing: 0.3px;
         }
 
         /* Footer */
@@ -1007,19 +1043,22 @@
             100% { transform: scale(0); opacity: 0; }
         }
 
-        /* Click Ripple Effect */
+        /* Click Ripple Effect - центрируется точно на курсоре */
         .ripple {
             position: fixed;
             border-radius: 50%;
             border: 2px solid var(--accent);
             pointer-events: none;
             z-index: 9997;
+            width: 0;
+            height: 0;
+            transform: translate(-50%, -50%);
             animation: rippleExpand 0.6s ease-out forwards;
         }
 
         @keyframes rippleExpand {
             0% { width: 0; height: 0; opacity: 1; }
-            100% { width: 100px; height: 100px; opacity: 0; }
+            100% { width: 120px; height: 120px; opacity: 0; }
         }
 
         /* Mobile Game Controls */
@@ -2086,6 +2125,10 @@
 
         document.addEventListener('keydown', (e) => {
             const key = e.key.toLowerCase();
+            // Предотвращаем скролл страницы при игре в змейку
+            if (snakeGameLoop && ['arrowup', 'arrowdown', 'arrowleft', 'arrowright', 'w', 'a', 's', 'd'].includes(key)) {
+                e.preventDefault();
+            }
             if ((key === 'arrowup' || key === 'w') && snakeDirection !== 'down') snakeDirection = 'up';
             if ((key === 'arrowdown' || key === 's') && snakeDirection !== 'up') snakeDirection = 'down';
             if ((key === 'arrowleft' || key === 'a') && snakeDirection !== 'right') snakeDirection = 'left';
@@ -2284,11 +2327,11 @@
             clickCount++;
             localStorage.setItem('clicks', clickCount);
             
-            // Ripple effect
+            // Ripple effect - теперь центрируется точно на курсоре
             const ripple = document.createElement('div');
             ripple.className = 'ripple';
-            ripple.style.left = (e.clientX - 50) + 'px';
-            ripple.style.top = (e.clientY - 50) + 'px';
+            ripple.style.left = e.clientX + 'px';
+            ripple.style.top = e.clientY + 'px';
             document.body.appendChild(ripple);
             setTimeout(() => ripple.remove(), 600);
             
